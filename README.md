@@ -265,7 +265,7 @@ Contributions welcome! Great first plugins to add: **Python** (`__pycache__`, `.
 git clone https://github.com/mertcanureten/devmop
 cd devmop
 npm install
-node bin/devclean.js --help
+node bin/devmop.js --help
 ```
 
 ---
