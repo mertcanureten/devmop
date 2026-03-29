@@ -35,5 +35,8 @@
         "execa": "^8.0.1",
         "ora": "^8.0.1",
         "pretty-bytes": "^6.1.1"
+    },
+    "scripts": {
+        "release": "npm version $1 && git push origin main --tags && npm publish"
     }
 }
