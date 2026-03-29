@@ -7,7 +7,7 @@ import ora from "ora";
 import enquirer from "enquirer";
 import { drawBarChart } from "../lib/utils/chart.js";
 import { loadConfig } from "../lib/config.js";
-import { getPlatform, IS_WINDOWS } from "../lib/platform.js";
+import { getPlatform, IS_WINDOWS, PermissionTracker, trySudoRemove } from "../lib/platform.js";
 import { startWatch, parseThreshold, parseInterval } from "../lib/watch.js";
 import { GitPlugin } from "../lib/plugins/git-plugin.js";
 import prettyBytes from "pretty-bytes";
@@ -77,6 +77,40 @@ program
 
     const duration = ((Date.now() - startTime) / 1000).toFixed(2);
     spinner.succeed(chalk.green(`Cleanup finished in ${duration}s`));
+
+    // ─── Permission Escalation Prompt ───────────────────────────────────────
+    const failed = PermissionTracker.get();
+    if (failed.length > 0 && !opts.dryRun) {
+      console.log(chalk.yellow(`\n⚠️  ${failed.length} paths could not be cleaned due to permissions.`));
+      
+      const { Confirm } = enquirer;
+      const prompt = new Confirm({
+        name: "retry",
+        message: IS_WINDOWS 
+          ? "Some files require Administrator privileges. Retry as Administrator?" 
+          : "Would you like to retry cleaning these restricted paths with 'sudo'?",
+        initial: false
+      });
+
+      const answer = await prompt.run().catch(() => false);
+      if (answer) {
+        if (IS_WINDOWS) {
+          console.log(chalk.cyan("\n💡 Please restart your terminal as Administrator and run the command again."));
+        } else {
+          console.log(chalk.bold("\n🚀 Escalating to sudo..."));
+          for (const p of failed) {
+            const success = await trySudoRemove(p);
+            if (success) {
+              console.log(chalk.green(`  ✔ Removed: ${p}`));
+            } else {
+              console.log(chalk.red(`  ✘ Failed again (requires higher privileges or Full Disk Access): ${p}`));
+            }
+          }
+          console.log(chalk.green("\nDone."));
+        }
+      }
+      PermissionTracker.clear();
+    }
   });
 
 // ─── usage ───────────────────────────────────────────────────────────────────
