@@ -1,9 +1,15 @@
 {
     "name": "devmop",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "bin": {
-        "devmop": "./bin/devclean.js"
+        "devmop": "bin/devmop.js"
     },
+    "files": [
+        "bin/",
+        "lib/",
+        "README.md",
+        "package.json"
+    ],
     "type": "module",
     "description": "The ultimate developer disk cleanup tool. Mop up node_modules, Docker, Git, Flutter and system caches — cross-platform.",
     "keywords": [

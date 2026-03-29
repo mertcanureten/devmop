@@ -17,7 +17,7 @@ const program = new Command();
 program
   .name("devmop")
   .description("Mop up developer disk junk — node_modules, Docker, Git, Flutter, system caches")
-  .version("1.0.0");
+  .version("1.0.1");
 
 // ─── clean ───────────────────────────────────────────────────────────────────
 
@@ -205,7 +205,7 @@ program
       const trigger = opts.monthly ? "MONTHLY" : "WEEKLY";
       console.log(chalk.gray("Run the following command in an elevated PowerShell/CMD:\n"));
       console.log(chalk.cyan(
-        `schtasks /create /sc ${trigger} /tn "DevClean" /tr "node ${binPath} clean --all --aggressive" /f`
+        `schtasks /create /sc ${trigger} /tn "DevMop" /tr "node ${binPath} clean --all --aggressive" /f`
       ));
       console.log(chalk.yellow("\nNote: Run as Administrator to ensure Task Scheduler access.\n"));
     } else {
