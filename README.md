@@ -11,7 +11,24 @@
 `node_modules`, Docker images, git garbage, Flutter caches, system temp files —  
 devmop finds them all and wipes them clean, on any OS.
 
-</div>
+---
+
+## 🖥 Terminal Dashboard (TUI) — New in v1.1.0!
+
+devmop now features a beautiful, full-screen interactive dashboard (inspired by `htop`). No more guessing — see your disk usage in real-time and clean it with a single keystroke.
+
+Launch it with just:
+```bash
+devmop
+# or
+devmop dashboard
+```
+
+### Dashboard Features:
+- **ASCII Bar Charts** — Visual representation of disk usage per category.
+- **Interactive Sidebar** — Navigate through plugins with arrow keys.
+- **Instant Cleanup** — Press `C` to clean selected plugin or `A` for everything.
+- **Alternate Buffer** — Stays in the dashboard, leaves your terminal scroll-back clean.
 
 ---
 
@@ -21,33 +38,42 @@ devmop finds them all and wipes them clean, on any OS.
 # Install globally
 npm install -g devmop
 
-# See how much disk space you can recover
-devmop usage
+# Launch the Dashboard (Recommended)
+devmop
 
-# Interactive cleanup — pick what to clean
-devmop clean -i
-
-# Clean everything, no questions asked
-devmop clean --all
+# Classic CLI usage
+devmop usage           # Detailed size breakdown
+devmop clean -i        # Interactive menu clean
+devmop clean --system  # Immediate system cleanup
 ```
 
 ---
 
 ## Features
 
-- **Plugin Architecture** — Modular cleaners for Node.js, Docker, Git, Flutter, and System caches. Easy to extend.
-- **Cross-Platform** — Runs natively on macOS, Linux, and Windows. No bash required.
-- **Disk Analyzer** — Visual ASCII bar chart showing exactly how much space each category uses.
-- **Interactive Mode** — Multi-select TUI to cherry-pick what to clean.
-- **Watch Mode** — Monitors disk usage in the background and sends a native OS notification when a threshold is exceeded.
-- **Git Workspace Cleaner** — GC, merged branch removal, stash clearing, and untracked file cleanup across all your repos.
-- **Dry Run** — Preview every deletion before anything is touched.
-- **Configurable** — Persistent settings via `~/.devmoprc`.
-- **Scheduling** — One-line crontab (Linux/macOS) or Task Scheduler (Windows) setup.
+- **Terminal Dashboard (TUI)** — A premium, full-screen interactive experience.
+- **Plugin Architecture** — Modular cleaners for Node.js, Docker, Git, Flutter, and System caches.
+- **Cross-Platform** — Native support for macOS, Linux, and Windows.
+- **Disk Analyzer** — Stylish ASCII charts showing space recovered.
+- **Watch Mode** — Background monitoring with native OS notifications.
+- **Git Workspace Cleaner** — Deep-clean branches, GC, and more across all local repos.
+- **Safety First** — Robust permission handling and `dry-run` support.
 
 ---
 
 ## Commands
+
+### `devmop dashboard` (or simply `devmop`)
+
+Launches the interactive TUI. Use it to navigate and clean categories visually.
+
+**Shortcuts inside Dashboard:**
+- `↑ / ↓` — Navigate categories
+- `C` — Clean selected plugin
+- `A` — Clean ALL categories
+- `Q` — Quits the dashboard
+
+---
 
 ### `devmop clean` — Run cleanup
 
