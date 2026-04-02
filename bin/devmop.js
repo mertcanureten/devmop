@@ -10,6 +10,7 @@ import { loadConfig } from "../lib/config.js";
 import { getPlatform, IS_WINDOWS, PermissionTracker, trySudoRemove } from "../lib/platform.js";
 import { startWatch, parseThreshold, parseInterval } from "../lib/watch.js";
 import { GitPlugin } from "../lib/plugins/git-plugin.js";
+import { startDashboard } from "../lib/ui/index.js";
 import prettyBytes from "pretty-bytes";
 
 const program = new Command();
@@ -249,5 +250,20 @@ program
       console.log(chalk.yellow("\nNote: Make sure the path to 'node' is in your crontab's PATH or use absolute paths.\n"));
     }
   });
+
+// ─── dashboard ───────────────────────────────────────────────────────────────
+
+program
+  .command("dashboard")
+  .alias("ui")
+  .description("Launch terminal dashboard")
+  .action(() => {
+    startDashboard();
+  });
+
+// Default to dashboard if no command given
+if (process.argv.length === 2) {
+  startDashboard();
+}
 
 program.parse();
